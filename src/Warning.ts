@@ -1,4 +1,11 @@
+/**
+ * Contains the class and types for creating an {@link Warning}.
+ *
+ * @copyright 2021-2022 IntegerEleven. All rights reserved. MIT license.
+ */
+
 import { Exception } from "../deps.ts";
+
 import { TWarningInit } from "./types.ts";
 
 /**
@@ -16,9 +23,11 @@ export type WarningInit = TWarningInit;
 export class Warning<
   T extends WarningInit = WarningInit,
 > extends Exception<T> {
-  //#region Constructors
+  /**
+   * The exception code for the {@link Warning} class.
+   */
+  public readonly code: number = 32;
 
-  //  Implementing for docs only as it has the same signature as `Exception`.
   /**
    * Creates a new {@link Warning} with the supplied `message`,
    * optionally with additional {@link WarningInit} properties.
@@ -31,14 +40,4 @@ export class Warning<
   constructor(message: string, init?: T) {
     super(message, init);
   }
-
-  //#endregion
-  //#region Public properties
-
-  /**
-   * The exception code for the {@link Warning} class.
-   */
-  public readonly code: number = 32;
-
-  //#endregion
 }

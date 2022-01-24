@@ -1,7 +1,23 @@
+/**
+ * Contains the class and types for creating an {@link PendingDeprecationWarning}.
+ *
+ * @copyright 2021-2022 IntegerEleven. All rights reserved. MIT license.
+ */
+
 import { Warning, WarningInit } from "./Warning.ts";
 
+/**
+ * The default {@link PendingDeprecationWarning} message.
+ */
 const DEFAULT_MSG = "A feature is pending deprecation.";
 
+/**
+ * Creates and returns an {@link PendingDeprecationWarning} message based on
+ * {@link PendingDeprecationWarningInit} properties.
+ *
+ * @param init The {@link PendingDeprecationWarningInit} information.
+ * @returns The message constructed from `init`.
+ */
 const msgFromInit = (init: PendingDeprecationWarningInit): string => {
   const { featureName, featureType } = init;
 
@@ -23,6 +39,11 @@ const msgFromInit = (init: PendingDeprecationWarningInit): string => {
  */
 export interface PendingDeprecationWarningInit extends WarningInit {
   /**
+   * A URL pointing to a resource covering the deprecation.
+   */
+  aboutUrl?: string;
+
+  /**
    * The name of the feature that is deprecated.
    */
 
@@ -31,11 +52,6 @@ export interface PendingDeprecationWarningInit extends WarningInit {
    * The type of feature that is deprecated.
    */
   featureType?: string;
-
-  /**
-   * A URL pointing to a resource covering the deprecation.
-   */
-  aboutUrl?: string;
 }
 
 /**
@@ -44,7 +60,10 @@ export interface PendingDeprecationWarningInit extends WarningInit {
 export class PendingDeprecationWarning<
   T extends PendingDeprecationWarningInit = PendingDeprecationWarningInit,
 > extends Warning<T> {
-  //#region Constructors
+  /**
+   * The warning code for the {@link PendingDeprecationWarning} class.
+   */
+  public readonly code: number = 33;
 
   /**
    * Creates a new {@link PendingDeprecationWarning} with the default message,
@@ -69,13 +88,10 @@ export class PendingDeprecationWarning<
    * @param init The {@link PendingDeprecationWarningInit} properties.
    */
   constructor(message: string, init?: T);
-  //  implementation
   constructor(msgOrInit: string | T = DEFAULT_MSG, maybeInit?: T) {
-    //  (message: string, init?: T)
     let message: string = msgOrInit as string;
     let init: T | undefined = maybeInit;
 
-    //  (init: T)
     if (typeof msgOrInit !== "string") {
       init = msgOrInit;
       message = msgFromInit(init);
@@ -83,14 +99,4 @@ export class PendingDeprecationWarning<
 
     super(message, init);
   }
-
-  //#endregion
-  //#region Public properties
-
-  /**
-   * The warning code for the {@link PendingDeprecationWarning} class.
-   */
-  public readonly code: number = 33;
-
-  //#endregion
 }

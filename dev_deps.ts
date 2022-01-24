@@ -1,3 +1,9 @@
+/**
+ * Development dependencies.
+ *
+ * @copyright 2021-2022 IntegerEleven. All rights reserved. MIT license.
+ */
+
 export {
   assert,
   assertEquals,
@@ -7,5 +13,5 @@ export {
 
 export {
   ExceptionSerializationData,
-  I11N_EXC_KB,
+  P11_EXC_KB,
 } from "https://denopkg.com/partic11e/exceptions@dev/__test_exports__.ts";

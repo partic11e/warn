@@ -1,5 +1,13 @@
-import { Warning } from "./Warning.ts";
+/**
+ * Contains the shared types for warn module in the particle11 core
+ * library.
+ *
+ * @copyright 2021-2022 IntegerEleven. All rights reserved. MIT license.
+ */
+
 import { TExceptionInit } from "../deps.ts";
+
+import { Warning } from "./Warning.ts";
 
 /**
  * A generic interface describing additional `init` properties available to a

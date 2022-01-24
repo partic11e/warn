@@ -1,14 +1,20 @@
 /**
- * The majority of the functionality for Exception is tested in the Exception
+ * Tests the features of the {@link StabilityWarning}.
+ *
+ * The majority of the functionality for Warning is tested in the Warning
  * tests. This test only test feature differences caused by the the differing
- * code, messaging, and `ExceptionInit` properties.
+ * code, messaging, and `WarningInit` properties.
+ *
+ * @copyright 2021-2022 IntegerEleven. All rights reserved. MIT license.
  */
-import { assertEquals } from "../dev_deps.ts";
-import { ExceptionSerializationData as esd, I11N_EXC_KB } from "../dev_deps.ts";
+
+import {
+  assertEquals,
+  ExceptionSerializationData as esd,
+  P11_EXC_KB,
+} from "../dev_deps.ts";
 
 import { StabilityWarning, StabilityWarningInit } from "../mod.ts";
-
-//#region Test Data
 
 const exCode = 35;
 const exName = "StabilityWarning";
@@ -16,15 +22,12 @@ const featureName = "exampleFeature";
 const featureType = "function";
 const aboutUrl = "https://example.com/stability.";
 
-//#endregion
-//#region Test constructors
-
 Deno.test("StabilityWarning()", () => {
   const exMsg =
     "A feature is unstable and should not be used in production environments.";
   const ex = new StabilityWarning();
   const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
-  const exHelpUrl = `${I11N_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
+  const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
     encodeURIComponent(exMsg)
   }`;
 
@@ -43,7 +46,7 @@ Deno.test("StabilityWarning({featureName})", () => {
   const dataEncoded = encodeURIComponent(JSON.stringify(data));
   const ex = new StabilityWarning(data);
   const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
-  const exHelpUrl = `${I11N_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
+  const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
     encodeURIComponent(exMsg)
   }&${esd.data}=${dataEncoded}`;
 
@@ -62,7 +65,7 @@ Deno.test("StabilityWarning({featureType})", () => {
   const dataEncoded = encodeURIComponent(JSON.stringify(data));
   const ex = new StabilityWarning(data);
   const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
-  const exHelpUrl = `${I11N_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
+  const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
     encodeURIComponent(exMsg)
   }&${esd.data}=${dataEncoded}`;
 
@@ -81,7 +84,7 @@ Deno.test("StabilityWarning({featureName, featureType})", () => {
   const dataEncoded = encodeURIComponent(JSON.stringify(data));
   const ex = new StabilityWarning(data);
   const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
-  const exHelpUrl = `${I11N_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
+  const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
     encodeURIComponent(exMsg)
   }&${esd.data}=${dataEncoded}`;
 
@@ -100,7 +103,7 @@ Deno.test("StabilityWarning({featureName, featureType, aboutUrl})", () => {
   const dataEncoded = encodeURIComponent(JSON.stringify(data));
   const ex = new StabilityWarning(data);
   const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
-  const exHelpUrl = `${I11N_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
+  const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
     encodeURIComponent(exMsg)
   }&${esd.data}=${dataEncoded}`;
 
@@ -116,7 +119,7 @@ Deno.test("StabilityWarning(message)", () => {
   const exMsg = "The method exampleFeature should not be used in production.";
   const ex = new StabilityWarning(exMsg);
   const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
-  const exHelpUrl = `${I11N_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
+  const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
     encodeURIComponent(exMsg)
   }`;
 
@@ -136,7 +139,7 @@ Deno.test("StabilityWarning(message, {featureName, featureType, aboutUrl})", () 
 
   const ex = new StabilityWarning(exMsg, data);
   const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
-  const exHelpUrl = `${I11N_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
+  const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
     encodeURIComponent(exMsg)
   }&${esd.data}=${dataEncoded}`;
 
@@ -147,5 +150,3 @@ Deno.test("StabilityWarning(message, {featureName, featureType, aboutUrl})", () 
   assertEquals(ex.toString(), ex2String);
   assertEquals(ex.helpUrl, exHelpUrl);
 });
-
-//#endregion

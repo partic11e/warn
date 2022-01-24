@@ -1,7 +1,23 @@
+/**
+ * Contains the class and types for creating an {@link DeprecationWarning}.
+ *
+ * @copyright 2021-2022 IntegerEleven. All rights reserved. MIT license.
+ */
+
 import { Warning, WarningInit } from "./Warning.ts";
 
+/**
+ * The default {@link DeprecationWarning} message.
+ */
 const DEFAULT_MSG = "A feature has been deprecated.";
 
+/**
+ * Creates and returns an {@link DeprecationWarning} message based on
+ * {@link DeprecationWarningInit} properties.
+ *
+ * @param init The {@link DeprecationWarningInit} information.
+ * @returns The message constructed from `init`.
+ */
 const msgFromInit = (init: DeprecationWarningInit): string => {
   const { featureName, featureType, alternativeFeatureName } = init;
 
@@ -31,16 +47,6 @@ const msgFromInit = (init: DeprecationWarningInit): string => {
  */
 export interface DeprecationWarningInit extends WarningInit {
   /**
-   * The name of the feature that is deprecated.
-   */
-
-  featureName?: string;
-  /**
-   * The type of feature that is deprecated.
-   */
-  featureType?: string;
-
-  /**
    * A URL pointing to a resource covering the deprecation.
    */
   aboutUrl?: string;
@@ -49,6 +55,16 @@ export interface DeprecationWarningInit extends WarningInit {
    * An alternative feature to use in place of the deprecated feature.
    */
   alternativeFeatureName?: string;
+
+  /**
+   * The name of the feature that is deprecated.
+   */
+
+  featureName?: string;
+  /**
+   * The type of feature that is deprecated.
+   */
+  featureType?: string;
 }
 
 /**
@@ -57,7 +73,10 @@ export interface DeprecationWarningInit extends WarningInit {
 export class DeprecationWarning<
   T extends DeprecationWarningInit = DeprecationWarningInit,
 > extends Warning<T> {
-  //#region Constructors
+  /**
+   * The warning code for the {@link DeprecationWarning} class.
+   */
+  public readonly code: number = 34;
 
   /**
    * Creates a new {@link DeprecationWarning} with the default message,
@@ -82,13 +101,10 @@ export class DeprecationWarning<
    * @param init The {@link DeprecationWarningInit} properties.
    */
   constructor(message: string, init?: T);
-  //  implementation
   constructor(msgOrInit: string | T = DEFAULT_MSG, maybeInit?: T) {
-    //  (message: string, init?: T)
     let message: string = msgOrInit as string;
     let init: T | undefined = maybeInit;
 
-    //  (init: T)
     if (typeof msgOrInit !== "string") {
       init = msgOrInit;
       message = msgFromInit(init);
@@ -96,14 +112,4 @@ export class DeprecationWarning<
 
     super(message, init);
   }
-
-  //#endregion
-  //#region Public properties
-
-  /**
-   * The warning code for the {@link DeprecationWarning} class.
-   */
-  public readonly code: number = 34;
-
-  //#endregion
 }

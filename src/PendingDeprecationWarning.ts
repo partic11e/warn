@@ -19,15 +19,23 @@ const DEFAULT_MSG = "A feature is pending deprecation.";
  * @returns The message constructed from `init`.
  */
 const msgFromInit = (init: PendingDeprecationWarningInit): string => {
-  const { featureName, featureType } = init;
+  const { featureName, featureType, aboutUrl } = init;
 
   switch (true) {
+    case (!!featureName && !!featureType && !!aboutUrl):
+      return `The ${featureType} "${featureName}" is pending deprecation. Read more at ${aboutUrl}.`;
     case (!!featureName && !!featureType):
-      return `The ${featureType} "${featureName}" is pending deprecation.`;
+      return `The ${featureType} "${featureName}" is pending deprecation.`;      
+    case (!!featureName && !!aboutUrl):
+      return `The feature "${featureName}" is pending deprecation. Read more at ${aboutUrl}.`;
     case (!!featureName):
-      return `The feature "${featureName}" is pending deprecation.`;
+      return `The feature "${featureName}" is pending deprecation.`;      
+    case (!!featureType && !!aboutUrl):
+      return `A ${featureType} is pending deprecation. Read more at ${aboutUrl}.`;
     case (!!featureType):
       return `A ${featureType} is pending deprecation.`;
+    case (!!aboutUrl):
+      return `${DEFAULT_MSG} Read more at ${aboutUrl}.`
     default:
       return DEFAULT_MSG;
   }
@@ -46,7 +54,6 @@ export interface PendingDeprecationWarningInit extends WarningInit {
   /**
    * The name of the feature that is deprecated.
    */
-
   featureName?: string;
   /**
    * The type of feature that is deprecated.

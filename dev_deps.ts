@@ -15,3 +15,5 @@ export {
   ExceptionSerializationData,
   P11_EXC_KB,
 } from "https://denopkg.com/partic11e/exceptions@dev/__test_exports__.ts";
+
+export { Testing } from "https://denopkg.com/partic11e/test-suite@dev/mod.ts";

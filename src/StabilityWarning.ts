@@ -20,15 +20,23 @@ const DEFAULT_MSG =
  * @returns The message constructed from `init`.
  */
 const msgFromInit = (init: StabilityWarningInit): string => {
-  const { featureName, featureType } = init;
+  const { featureName, featureType, aboutUrl } = init;
 
   switch (true) {
+    case (!!featureName && !!featureType && !!aboutUrl):
+      return `The ${featureType} "${featureName}" is unstable and should not be used in production environments. Read more at ${aboutUrl}.`;
     case (!!featureName && !!featureType):
-      return `The ${featureType} "${featureName}" is unstable and should not be used in production environments.`;
+      return `The ${featureType} "${featureName}" is unstable and should not be used in production environments.`;      
+    case (!!featureName && !!aboutUrl):
+      return `The feature "${featureName}" is unstable and should not be used in production environments. Read more at ${aboutUrl}.`;
     case (!!featureName):
-      return `The feature "${featureName}" is unstable and should not be used in production environments.`;
+      return `The feature "${featureName}" is unstable and should not be used in production environments.`;      
+    case (!!featureType && !!aboutUrl):
+      return `A ${featureType} is unstable and should not be used in production environments. Read more at ${aboutUrl}.`;
     case (!!featureType):
       return `A ${featureType} is unstable and should not be used in production environments.`;
+    case (!!aboutUrl):
+      return `${DEFAULT_MSG} Read more at ${aboutUrl}.`
     default:
       return DEFAULT_MSG;
   }

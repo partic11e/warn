@@ -1,152 +1,108 @@
 /**
  * Tests the features of the {@link StabilityWarning}.
  *
- * The majority of the functionality for Warning is tested in the Warning
+ * The majority of the functionality for Exception is tested in the Exception
  * tests. This test only test feature differences caused by the the differing
- * code, messaging, and `WarningInit` properties.
+ * code, messaging, and `ExceptionInit` properties.
  *
  * @copyright 2021-2022 IntegerEleven. All rights reserved. MIT license.
  */
 
-import {
-  assertEquals,
-  ExceptionSerializationData as esd,
-  P11_EXC_KB,
-} from "../dev_deps.ts";
+ import { assertEquals, Testing } from "../dev_deps.ts";
 
-import { StabilityWarning, StabilityWarningInit } from "../mod.ts";
-
-const exCode = 35;
-const exName = "StabilityWarning";
-const featureName = "exampleFeature";
-const featureType = "function";
-const aboutUrl = "https://example.com/stability.";
-
-Deno.test("StabilityWarning()", () => {
-  const exMsg =
-    "A feature is unstable and should not be used in production environments.";
-  const ex = new StabilityWarning();
-  const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
-  const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
-    encodeURIComponent(exMsg)
-  }`;
-
-  assertEquals(ex.name, exName);
-  assertEquals(ex.code, exCode);
-  assertEquals(ex.data, undefined);
-  assertEquals(ex.message, exMsg);
-  assertEquals(ex.toString(), ex2String);
-  assertEquals(ex.helpUrl, exHelpUrl);
-});
-
-Deno.test("StabilityWarning({featureName})", () => {
-  const exMsg =
-    `The feature "${featureName}" is unstable and should not be used in production environments.`;
-  const data: StabilityWarningInit = { featureName };
-  const dataEncoded = encodeURIComponent(JSON.stringify(data));
-  const ex = new StabilityWarning(data);
-  const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
-  const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
-    encodeURIComponent(exMsg)
-  }&${esd.data}=${dataEncoded}`;
-
-  assertEquals(ex.name, exName);
-  assertEquals(ex.code, exCode);
-  assertEquals(ex.data, data);
-  assertEquals(ex.message, exMsg);
-  assertEquals(ex.toString(), ex2String);
-  assertEquals(ex.helpUrl, exHelpUrl);
-});
-
-Deno.test("StabilityWarning({featureType})", () => {
-  const exMsg =
-    `A ${featureType} is unstable and should not be used in production environments.`;
-  const data: StabilityWarningInit = { featureType };
-  const dataEncoded = encodeURIComponent(JSON.stringify(data));
-  const ex = new StabilityWarning(data);
-  const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
-  const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
-    encodeURIComponent(exMsg)
-  }&${esd.data}=${dataEncoded}`;
-
-  assertEquals(ex.name, exName);
-  assertEquals(ex.code, exCode);
-  assertEquals(ex.data, data);
-  assertEquals(ex.message, exMsg);
-  assertEquals(ex.toString(), ex2String);
-  assertEquals(ex.helpUrl, exHelpUrl);
-});
-
-Deno.test("StabilityWarning({featureName, featureType})", () => {
-  const exMsg =
-    `The ${featureType} "${featureName}" is unstable and should not be used in production environments.`;
-  const data: StabilityWarningInit = { featureName, featureType };
-  const dataEncoded = encodeURIComponent(JSON.stringify(data));
-  const ex = new StabilityWarning(data);
-  const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
-  const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
-    encodeURIComponent(exMsg)
-  }&${esd.data}=${dataEncoded}`;
-
-  assertEquals(ex.name, exName);
-  assertEquals(ex.code, exCode);
-  assertEquals(ex.data, data);
-  assertEquals(ex.message, exMsg);
-  assertEquals(ex.toString(), ex2String);
-  assertEquals(ex.helpUrl, exHelpUrl);
-});
-
-Deno.test("StabilityWarning({featureName, featureType, aboutUrl})", () => {
-  const exMsg =
-    `The ${featureType} "${featureName}" is unstable and should not be used in production environments.`;
-  const data: StabilityWarningInit = { featureName, featureType, aboutUrl };
-  const dataEncoded = encodeURIComponent(JSON.stringify(data));
-  const ex = new StabilityWarning(data);
-  const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
-  const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
-    encodeURIComponent(exMsg)
-  }&${esd.data}=${dataEncoded}`;
-
-  assertEquals(ex.name, exName);
-  assertEquals(ex.code, exCode);
-  assertEquals(ex.data, data);
-  assertEquals(ex.message, exMsg);
-  assertEquals(ex.toString(), ex2String);
-  assertEquals(ex.helpUrl, exHelpUrl);
-});
-
-Deno.test("StabilityWarning(message)", () => {
-  const exMsg = "The method exampleFeature should not be used in production.";
-  const ex = new StabilityWarning(exMsg);
-  const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
-  const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
-    encodeURIComponent(exMsg)
-  }`;
-
-  assertEquals(ex.name, exName);
-  assertEquals(ex.code, exCode);
-  assertEquals(ex.data, undefined);
-  assertEquals(ex.message, exMsg);
-  assertEquals(ex.toString(), ex2String);
-  assertEquals(ex.helpUrl, exHelpUrl);
-});
-
-Deno.test("StabilityWarning(message, {featureName, featureType, aboutUrl})", () => {
-  const exMsg = "The method exampleFeature should not be used in production.";
-
-  const data: StabilityWarningInit = { featureName, featureType, aboutUrl };
-  const dataEncoded = encodeURIComponent(JSON.stringify(data));
-
-  const ex = new StabilityWarning(exMsg, data);
-  const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
-  const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
-    encodeURIComponent(exMsg)
-  }&${esd.data}=${dataEncoded}`;
-
-  assertEquals(ex.name, exName);
-  assertEquals(ex.code, exCode);
-  assertEquals(ex.data, data);
-  assertEquals(ex.message, exMsg);
-  assertEquals(ex.toString(), ex2String);
-  assertEquals(ex.helpUrl, exHelpUrl);
-});
+ import { StabilityWarning, StabilityWarningInit } from "../mod.ts";
+ 
+ import { ExceptionSerializationData as esd, P11_EXC_KB } from "../dev_deps.ts";
+ 
+ import {
+   allCases,
+   exCode,
+   exName,
+   initCases,
+   messageCases,
+ } from "./StabilityWarning.cases.ts";
+ 
+ import { TrackFailedCase } from "./_util.ts";
+ 
+ const { TestSuite, TestCase, Test } = Testing.decorators;
+ 
+ const ClassCtor = StabilityWarning;
+ 
+ @TestSuite("StabilityWarning")
+ class TestSuiteClass<I extends StabilityWarningInit = StabilityWarningInit> {
+   @Test("()")
+   public testWithNoArgs() {
+     const exMsg = "A feature is unstable and should not be used in production environments.";
+     const ex = new ClassCtor();
+     const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
+     const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
+       encodeURIComponent(exMsg)
+     }`;
+ 
+     assertEquals(ex.name, exName);
+     assertEquals(ex.code, exCode);
+     assertEquals(ex.data, undefined);
+     assertEquals(ex.message, exMsg);
+     assertEquals(ex.toString(), ex2String);
+     assertEquals(ex.helpUrl, exHelpUrl);
+   }
+ 
+   @Test("(init)")
+   @TestCase(...initCases)
+   @TrackFailedCase
+   public testWithInit([data, exMsg]: [I, string]) {
+     const dataEncoded = encodeURIComponent(JSON.stringify(data));
+     const ex = new ClassCtor(data);
+     const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
+     const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
+       encodeURIComponent(exMsg)
+     }&${esd.data}=${dataEncoded}`;
+ 
+     assertEquals(ex.name, exName);
+     assertEquals(ex.code, exCode);
+     assertEquals(ex.data, data);
+     assertEquals(ex.message, exMsg);
+     assertEquals(ex.toString(), ex2String);
+     assertEquals(ex.helpUrl, exHelpUrl);
+   }
+ 
+   @Test("(message)")
+   @TestCase(...messageCases)
+   @TrackFailedCase
+   public testWithMessage([exMsg]: [string]) {
+     const ex = new ClassCtor(exMsg);
+     const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
+     const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
+       encodeURIComponent(exMsg)
+     }`;
+ 
+     assertEquals(ex.name, exName);
+     assertEquals(ex.code, exCode);
+     assertEquals(ex.data, undefined);
+     assertEquals(ex.message, exMsg);
+     assertEquals(ex.toString(), ex2String);
+     assertEquals(ex.helpUrl, exHelpUrl);
+   }
+ 
+   @Test("(message, init)")
+   @TestCase(...allCases)
+   @TrackFailedCase
+   public testAll([data, exMsg]: [I, string]) {
+     const dataEncoded = encodeURIComponent(JSON.stringify(data));
+     const ex = new ClassCtor(exMsg, data);
+     const ex2String = `${exName} [0x${exCode.toString(16)}]: ${exMsg}`;
+     const exHelpUrl = `${P11_EXC_KB}/0x${exCode.toString(16)}?${esd.message}=${
+       encodeURIComponent(exMsg)
+     }&${esd.data}=${dataEncoded}`;
+ 
+     assertEquals(ex.name, exName);
+     assertEquals(ex.code, exCode);
+     assertEquals(ex.data, data);
+     assertEquals(ex.message, exMsg);
+     assertEquals(ex.toString(), ex2String);
+     assertEquals(ex.helpUrl, exHelpUrl);
+   }
+ }
+ 
+ Testing(TestSuiteClass);
+ 

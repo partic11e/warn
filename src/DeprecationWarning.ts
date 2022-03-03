@@ -19,23 +19,39 @@ const DEFAULT_MSG = "A feature has been deprecated.";
  * @returns The message constructed from `init`.
  */
 const msgFromInit = (init: DeprecationWarningInit): string => {
-  const { featureName, featureType, alternativeFeatureName } = init;
+  const { featureName, featureType, alternativeFeatureName, aboutUrl } = init;
 
   switch (true) {
+    case (!!featureName && !!featureType && !!alternativeFeatureName && !!aboutUrl):
+      return `The ${featureType} "${featureName}" has been deprecated. Instead use "${alternativeFeatureName}". Read more at ${aboutUrl}.`;
     case (!!featureName && !!featureType && !!alternativeFeatureName):
       return `The ${featureType} "${featureName}" has been deprecated. Instead use "${alternativeFeatureName}".`;
+    case (!!featureName && !!featureType && !!aboutUrl):
+      return `The ${featureType} "${featureName}" has been deprecated. Read more at ${aboutUrl}.`;
     case (!!featureName && !!featureType):
-      return `The ${featureType} "${featureName}" has been deprecated.`;
+      return `The ${featureType} "${featureName}" has been deprecated.`;      
+    case (!!featureType && !!alternativeFeatureName && !!aboutUrl):
+      return `A ${featureType} has been deprecated. Instead use "${alternativeFeatureName}". Read more at ${aboutUrl}.`;
     case (!!featureType && !!alternativeFeatureName):
-      return `A ${featureType} has been deprecated. Instead use "${alternativeFeatureName}".`;
+      return `A ${featureType} has been deprecated. Instead use "${alternativeFeatureName}".`;      
+    case (!!featureName && !!alternativeFeatureName && !!aboutUrl):
+      return `The feature "${featureName}" has been deprecated. Instead use "${alternativeFeatureName}". Read more at ${aboutUrl}.`;
     case (!!featureName && !!alternativeFeatureName):
-      return `The feature "${featureName}" has been deprecated. Instead use "${alternativeFeatureName}".`;
+      return `The feature "${featureName}" has been deprecated. Instead use "${alternativeFeatureName}".`;      
+    case (!!featureName && !!aboutUrl):
+      return `The feature "${featureName}" has been deprecated. Read more at ${aboutUrl}.`;
     case (!!featureName):
-      return `The feature "${featureName}" has been deprecated.`;
+      return `The feature "${featureName}" has been deprecated.`;      
+    case (!!featureType && !!aboutUrl):
+      return `A ${featureType} has been deprecated. Read more at ${aboutUrl}.`;
     case (!!featureType):
-      return `A ${featureType} has been deprecated.`;
+      return `A ${featureType} has been deprecated.`;      
+    case (!!alternativeFeatureName && !!aboutUrl):
+      return `A feature has been deprecated. Instead use "${alternativeFeatureName}". Read more at ${aboutUrl}.`;
     case (!!alternativeFeatureName):
       return `A feature has been deprecated. Instead use "${alternativeFeatureName}".`;
+    case (!!aboutUrl):
+      return `${DEFAULT_MSG} Read more at ${aboutUrl}.`
     default:
       return DEFAULT_MSG;
   }
